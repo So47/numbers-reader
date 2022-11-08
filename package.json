@@ -1,0 +1,12 @@
+{
+  "name": "numbers-reader",
+  "version": "1.0.0",
+  "description": "Xing programming code challenge",
+  "scripts": {
+    "test": "jest ./tests --noStackTrace"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
