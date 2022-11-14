@@ -2,11 +2,15 @@
   "name": "numbers-reader",
   "version": "1.0.0",
   "description": "Xing programming code challenge",
+  "bin": "index.js",
   "scripts": {
-    "test": "jest ./tests --noStackTrace"
+    "test": "jest ./tests --noStackTrace --detectOpenHandles"
   },
   "license": "ISC",
   "devDependencies": {
     "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }

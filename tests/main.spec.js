@@ -1,10 +1,9 @@
-const { promisify } = require("util");
-const exec = promisify(require("child_process").exec);
+const numbersReader = require("../services/numbersReader");
 
 describe("When input is empty", () => {
-  it("should return an empty string", async () => {
-    const { stdout } = await exec("./calculate");
-    expect(stdout).toEqual(expect.stringContaining("empty input"));
+  it("should return an empty string", () => {
+    const result = numbersReader.stringValidate(" ");
+    expect(result).toEqual(expect.stringContaining("empty input"));
   });
 });
 
@@ -15,14 +14,15 @@ describe("when number is out of range", () => {
     ${"-1"}
     ${"one thousand"}
     ${"minus one"}
-    ${"mil"}
-    ${"menos uno"}
-  `("should return an error message for input '$invalidInput'", async () => {
-    const { stdout } = await exec('./calculate "${invalidInput}"');
-    expect(stdout).toEqual(
-      expect.stringContaining("some number is out of range (0-999)")
-    );
-  });
+  `(
+    "should return an error message for input '$invalidInput'",
+    ({ invalidInput }) => {
+      const result = numbersReader.stringValidate(invalidInput);
+      expect(result).toEqual(
+        expect.stringContaining("some number is out of range (0-999)")
+      );
+    }
+  );
 });
 
 describe("When input string is invalid", () => {
@@ -33,9 +33,9 @@ describe("When input string is invalid", () => {
     ${"cincuenta uno"}
   `(
     "should return an error message for '$invalidInput'",
-    async invalidInput => {
-      const { stdout } = await exec(`./calculate "${invalidInput}"`);
-      expect(stdout).toEqual(expect.stringContaining("invalid string"));
+    ({ invalidInput }) => {
+      const result = numbersReader.stringValidate(invalidInput);
+      expect(result).toEqual(expect.stringContaining("invalid string"));
     }
   );
 });
@@ -48,11 +48,8 @@ describe("when input is valid", () => {
     ${"five"}                               | ${"five"}
     ${"zero plus one"}                      | ${"one"}
     ${"nine hundred ninety-eight plus one"} | ${"nine hundred ninety-nine"}
-    ${"cinco"}                              | ${"cinco"}
-    ${"cero mas uno"}                       | ${"uno"}
-    ${"novecientos noventa y ocho mas uno"} | ${"novecientos noventa y nueve"}
-  `("should return '$result' for '$input'", async ({ input, result }) => {
-    const { stdout } = await exec(`./calculate "${input}"`);
-    expect(stdout).toEqual(expect.stringContaining(result));
+  `("should return '$result' for '$input'", ({ input, result }) => {
+    const res = numbersReader.stringValidate(input);
+    expect(res).toEqual(expect.stringContaining(result));
   });
 });
