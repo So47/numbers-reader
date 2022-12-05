@@ -137,9 +137,11 @@ function toWords(digit) {
     const firstDigit = +str[0]; // must be from 1 to 9
 
     if (firstDigit >= 1 && firstDigit <= 9) {
-      return `${dg[firstDigit]} hundred ${convertNumberToStrFrom0to99(
-        str[1] + str[2]
-      )}`;
+       return `${dg[firstDigit]} hundred ${
+        +str[1] === 0 && +str[2] === 0
+          ? ""
+          : convertNumberToStrFrom0to99(str[1] + str[2])
+      }`;
     }
   } else if (digitLength === 4) {
     const firstDigit = +str[0]; // must be from 1 to 9
